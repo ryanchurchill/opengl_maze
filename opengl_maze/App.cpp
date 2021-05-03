@@ -11,7 +11,7 @@ App::App()
 
 void App::LogicLoop()
 {
-
+    player->LogicLoop();
 }
 
 void App::RenderLoop()
@@ -27,6 +27,7 @@ void App::RenderLoop()
     //glTranslatef(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
 
     maze->Render(SCREEN_WIDTH, SCREEN_HEIGHT);
+    player->OnRender();
     //Render quad
     //if (gRenderQuad)
     //{
@@ -45,21 +46,22 @@ void App::ProcessEvent(SDL_Event e)
         Quit = true;
     }
     //Handle keypress with current mouse position
-    else if (e.type == SDL_TEXTINPUT)
+    else if (e.type == SDL_KEYDOWN)
     {
         int x = 0, y = 0;
         SDL_GetMouseState(&x, &y);
-        HandleKeys(e.text.text[0], x, y);
+        HandleKeys(e.key.keysym.sym, x, y);
     }
 }
 
-void App::HandleKeys(unsigned char key, int x, int y)
+void App::HandleKeys(SDL_Keycode key, int x, int y)
 {
     ////Toggle quad
     //if (key == 'q')
     //{
     //    gRenderQuad = !gRenderQuad;
     //}
+    player->ProcessKeypress(key);
 }
 
 
@@ -85,7 +87,7 @@ int App::OnExecute()
     else
     {
         //Enable text input (??)
-        SDL_StartTextInput();
+        //SDL_StartTextInput();
 
         // Main Loop
         while (!Quit) {
@@ -101,7 +103,7 @@ int App::OnExecute()
         }
 
         //Disable text input (??)
-        SDL_StopTextInput();
+        //SDL_StopTextInput();
 
         Close();
     }
@@ -162,6 +164,7 @@ bool App::Init()
 
     MazeData* m = MazeData::GenerateMaze();
     maze = new EMaze(m);
+    player = new EPlayer(m);
 
     return success;
 }

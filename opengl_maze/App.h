@@ -9,6 +9,7 @@
 
 #include "MazeData.h"
 #include "EMaze.h"
+#include "EPlayer.h"
 
 class App
 {
@@ -45,8 +46,9 @@ private:
 
 	bool InitGlHelper();
 	void ProcessEvent(SDL_Event e);
-	void HandleKeys(unsigned char key, int x, int y);
+	void HandleKeys(SDL_Keycode key, int x, int y);
 
 	// Game-specific
 	EMaze* maze;
+	EPlayer* player;
 };
