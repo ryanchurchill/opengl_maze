@@ -1,44 +1,20 @@
-#include "LOpenGL.h"
+#include "App.h"
 
-const int SCREEN_WIDTH = 1000;
-const int SCREEN_HEIGHT = 1000;
-const int SCREEN_FPS = 60;
-
-//Starts up SDL, creates window, and initializes OpenGL
-bool init();
-
-//Initializes matrices and clear color
-bool initGl();
-
-//Input handler
-void handleKeys(unsigned char key, int x, int y);
-
-//Per frame update
-void update();
-
-//Renders quad to the screen
-void render();
-
-//Frees media and shuts down SDL
-void close();
-
-//The window we'll be rendering to
-SDL_Window* gWindow = NULL;
-
-//OpenGL context
-SDL_GLContext gContext;
-
-//Render flag
-bool gRenderQuad = true;
-
-bool quit = false;
-
-void update()
+App::App()
 {
-    
+    gWindow = NULL;
+    gRenderer = NULL;
+    Quit = false;
+
+    gRenderQuad = true;
 }
 
-void render()
+void App::LogicLoop()
+{
+
+}
+
+void App::RenderLoop()
 {
     //Clear color buffer
     glClear(GL_COLOR_BUFFER_BIT);
@@ -48,18 +24,45 @@ void render()
     {
         //Red quad
         glBegin(GL_QUADS);
-            glColor3f(1.f, 0.f, 0.f);
-            glVertex2f(-SCREEN_WIDTH / 4.f, -SCREEN_HEIGHT / 4.f);
-            glVertex2f(SCREEN_WIDTH / 4.f, -SCREEN_HEIGHT / 4.f);
-            glVertex2f(SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f);
-            glVertex2f(-SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f);
+        glColor3f(1.f, 0.f, 0.f);
+        glVertex2f(-SCREEN_WIDTH / 4.f, -SCREEN_HEIGHT / 4.f);
+        glVertex2f(SCREEN_WIDTH / 4.f, -SCREEN_HEIGHT / 4.f);
+        glVertex2f(SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f);
+        glVertex2f(-SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f);
         glEnd();
     }
 
-    // TODO: double-buffering
+    //Update screen (double buffering, I think)
+    SDL_GL_SwapWindow(gWindow);
 }
 
-void handleKeys(unsigned char key, int x, int y)
+void App::Close()
+{
+    //Destroy window
+    SDL_DestroyWindow(gWindow);
+    gWindow = NULL;
+
+    //Quit SDL subsystems
+    SDL_Quit();
+}
+
+void App::ProcessEvent(SDL_Event e)
+{
+    //User requests quit
+    if (e.type == SDL_QUIT)
+    {
+        Quit = true;
+    }
+    //Handle keypress with current mouse position
+    else if (e.type == SDL_TEXTINPUT)
+    {
+        int x = 0, y = 0;
+        SDL_GetMouseState(&x, &y);
+        HandleKeys(e.text.text[0], x, y);
+    }
+}
+
+void App::HandleKeys(unsigned char key, int x, int y)
 {
     //Toggle quad
     if (key == 'q')
@@ -68,7 +71,41 @@ void handleKeys(unsigned char key, int x, int y)
     }
 }
 
-bool init()
+int App::OnExecute()
+{
+    //Start up SDL and create window
+    if (!Init())
+    {
+        printf("Failed to initialize!\n");
+    }
+    else
+    {
+        //Enable text input (??)
+        SDL_StartTextInput();
+
+        // Main Loop
+        while (!Quit) {
+            // Handle Events on Queue
+            SDL_Event e;
+            while (SDL_PollEvent(&e) != 0)
+            {
+                ProcessEvent(e);
+            }
+
+            LogicLoop();
+            RenderLoop();
+        }
+
+        //Disable text input (??)
+        SDL_StopTextInput();
+
+        Close();
+    }
+
+    return 0;
+}
+
+bool App::Init()
 {
     //Initialization flag
     bool success = true;
@@ -110,7 +147,7 @@ bool init()
                 }
 
                 //Initialize OpenGL
-                if (!initGl())
+                if (!InitGlHelper())
                 {
                     printf("Unable to initialize OpenGL!\n");
                     success = false;
@@ -121,8 +158,7 @@ bool init()
 
     return success;
 }
-
-bool initGl()
+bool App::InitGlHelper()
 {
     bool success = true;
     GLenum error = GL_NO_ERROR;
@@ -154,57 +190,19 @@ bool initGl()
     return true;
 }
 
-void runMainLoop()
-{
-    //Enable text input
-    SDL_StartTextInput();
-
-    //While application is running
-    while (!quit)
-    {
-        SDL_Event e;
-        //Handle events on queue
-        while (SDL_PollEvent(&e) != 0)
-        {
-            //User requests quit
-            if (e.type == SDL_QUIT)
-            {
-                quit = true;
-            }
-            //Handle keypress with current mouse position
-            else if (e.type == SDL_TEXTINPUT)
-            {
-                int x = 0, y = 0;
-                SDL_GetMouseState(&x, &y);
-                handleKeys(e.text.text[0], x, y);
-            }
-        }
-
-        //Render quad
-        render();
-
-        //Update screen
-        SDL_GL_SwapWindow(gWindow);
-    }
-
-    //Disable text input
-    SDL_StopTextInput();
-}
-
-void Close()
-{
-    //Destroy window
-    SDL_DestroyWindow(gWindow);
-    gWindow = NULL;
-
-    //Quit SDL subsystems
-    SDL_Quit();
-}
-
 int main(int argc, char* args[])
 {
-    init();
-    runMainLoop();
+    App app;
+    return app.OnExecute();
+
+    //Maze m = Maze::GetDummyMaze();
+    //m.DrawAsAscii();
+
+    //vector<PathSegment> path = PathGenerator().GeneratePath(Point{ 0,0 }, Point{ 3,3 });
+
+    //MazeGenerator mg;
+    //Maze m = mg.GenerateMaze();
+    //m.DrawAsAscii();
 
     return 0;
 }
