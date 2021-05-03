@@ -88,6 +88,21 @@ void MazeData::DrawAsAscii(MazeData* m)
 	}
 }
 
+IntTuple MazeData::GetSize()
+{
+	return size;
+}
+
+IntTuple MazeData::GetExit()
+{
+	return exit;
+}
+
+IntTuple MazeData::GetStartingPoint()
+{
+	return startingPoint;
+}
+
 // Generator
 MazeData* MazeData::GenerateMaze()
 {

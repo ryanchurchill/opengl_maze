@@ -24,7 +24,7 @@ void App::RenderLoop()
     glLoadIdentity();
 
     //Move to center of the screen
-    glTranslatef(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
+    //glTranslatef(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
 
     maze->Render(SCREEN_WIDTH, SCREEN_HEIGHT);
     //Render quad

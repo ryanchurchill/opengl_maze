@@ -35,6 +35,10 @@ public:
 	
 	static void DrawAsAscii(MazeData* m);
 
+	IntTuple GetSize();
+	IntTuple GetExit();
+	IntTuple GetStartingPoint();
+	MazeCell* GetCellAtPoint(IntTuple point);
 private:
 	MazeData();
 
@@ -45,7 +49,7 @@ private:
 	IntTuple startingPoint;
 	std::vector<MazeCell> cells;
 	
-	MazeCell* GetCellAtPoint(IntTuple point);
+	
 	int GetCellIndexFromPoint(IntTuple point);
 	IntTuple GetPointFromCellIndex(int index);
 

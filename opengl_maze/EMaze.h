@@ -12,5 +12,12 @@ public:
 	MazeData* maze;
 
 	void Render(float screenWidth, float screenHeight);
+
+private:
+	const int PIXELS_PER_UNIT = 40;
+	const int MAZE_PADDING = 30;
+	
+	void RenderCell(const MazeCell *mc, const IntTuple gridPoint);
+	void DrawLine(IntTuple p1, IntTuple p2);
 };
 
