@@ -19,6 +19,13 @@ void App::RenderLoop()
     //Clear color buffer
     glClear(GL_COLOR_BUFFER_BIT);
 
+    //Reset modelview matrix
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    //Move to center of the screen
+    glTranslatef(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
+
     //Render quad
     if (gRenderQuad)
     {
@@ -34,16 +41,6 @@ void App::RenderLoop()
 
     //Update screen (double buffering, I think)
     SDL_GL_SwapWindow(gWindow);
-}
-
-void App::Close()
-{
-    //Destroy window
-    SDL_DestroyWindow(gWindow);
-    gWindow = NULL;
-
-    //Quit SDL subsystems
-    SDL_Quit();
 }
 
 void App::ProcessEvent(SDL_Event e)
@@ -69,6 +66,19 @@ void App::HandleKeys(unsigned char key, int x, int y)
     {
         gRenderQuad = !gRenderQuad;
     }
+}
+
+
+
+
+void App::Close()
+{
+    //Destroy window
+    SDL_DestroyWindow(gWindow);
+    gWindow = NULL;
+
+    //Quit SDL subsystems
+    SDL_Quit();
 }
 
 int App::OnExecute()
@@ -183,7 +193,7 @@ bool App::InitGlHelper()
     if (error != GL_NO_ERROR)
     {
         // "error" will be cryptic without gluErrorString
-        printf("Error initializing OpenGL! %s\n", error);
+        printf("Error initializing OpenGL! %s\n", &error);
         success = false;
     }
 
