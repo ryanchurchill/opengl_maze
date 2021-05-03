@@ -205,8 +205,7 @@ int main(int argc, char* args[])
     /*App app;
     return app.OnExecute();*/
 
-    MazeData* m = MazeData::GetClosedMaze();
-    MazeData::DrawAsAscii(m);
+    MazeData* m = MazeData::GenerateMaze();
 
     //vector<PathSegment> path = PathGenerator().GeneratePath(Point{ 0,0 }, Point{ 3,3 });
 

@@ -2,6 +2,10 @@
 
 #include <vector>
 #include <iostream>
+#include <ctime>
+#include <random>
+#include <stack>
+#include <cmath>
 
 #include "Tuple.h"
 
@@ -16,15 +20,24 @@ struct MazeCell
 	IntTuple gridCoord;
 };
 
+enum Direction {
+	UP, RIGHT, DOWN, LEFT, INVALID
+};
+
+enum Quadrant {
+	UPPER_LEFT, UPPER_RIGHT, LOWER_RIGHT, LOWER_LEFT, UNKNOWN
+};
+
 class MazeData
 {
 public:
-	MazeData();
-
-	static MazeData* GetClosedMaze();
+	static MazeData* GenerateMaze();
+	
 	static void DrawAsAscii(MazeData* m);
 
 private:
+	MazeData();
+
 	const IntTuple DEFAULT_SIZE = { 20, 20 };
 
 	IntTuple size;
@@ -32,11 +45,26 @@ private:
 	IntTuple startingPoint;
 	std::vector<MazeCell> cells;
 	
-	MazeCell GetCellAtPoint(IntTuple point);
+	MazeCell* GetCellAtPoint(IntTuple point);
 	int GetCellIndexFromPoint(IntTuple point);
 	IntTuple GetPointFromCellIndex(int index);
 
-	
+	// Generator
+	static MazeData* GetClosedMaze();
+	static int GetRandomInt(int min, int max);
+	static Direction GetRandomDirection(vector<Direction>);
+	vector<IntTuple> CellsVisited;
+	void CarveClosedMazeIntoPerfectMaze();
+	void AddStartAndExit(int numEntrances);
+	bool CellHasBeenVisited(IntTuple p);
+	bool AreAllCellsVisited();
+	vector<Direction> GetAvailableDirections(IntTuple p);
+	void ConnectCells(IntTuple a, Direction d);
+	IntTuple GetDestinationPoint(IntTuple a, Direction d);
+
+	Quadrant GetQuadrant(IntTuple p);
+	Quadrant GetInverseQuadrant(Quadrant q);
+	IntTuple GetRandomPointInQuadrant(Quadrant q);
 	
 };
 
