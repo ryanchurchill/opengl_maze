@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <string>
 
+#include "MazeData.h"
+
 class App
 {
 

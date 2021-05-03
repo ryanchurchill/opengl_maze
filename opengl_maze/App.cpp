@@ -202,11 +202,11 @@ bool App::InitGlHelper()
 
 int main(int argc, char* args[])
 {
-    App app;
-    return app.OnExecute();
+    /*App app;
+    return app.OnExecute();*/
 
-    //Maze m = Maze::GetDummyMaze();
-    //m.DrawAsAscii();
+    MazeData* m = MazeData::GetClosedMaze();
+    MazeData::DrawAsAscii(m);
 
     //vector<PathSegment> path = PathGenerator().GeneratePath(Point{ 0,0 }, Point{ 3,3 });
 
