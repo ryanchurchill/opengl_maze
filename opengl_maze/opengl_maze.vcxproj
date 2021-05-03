@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>F:\dev\download\freeglut-MSVC-2.6.0-4.mp\freeglut\include;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\dev\download\freeglut-MSVC-2.6.0-4.mp\freeglut\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\dev\download\freeglut-MSVC-2.6.0-4.mp\freeglut\include;F:\dev\vclib\SDL2-2.0.14\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\dev\download\freeglut-MSVC-2.6.0-4.mp\freeglut\lib\x64;F:\dev\vclib\SDL2-2.0.14\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -125,7 +125,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;freeglut.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
