@@ -8,6 +8,7 @@
 #include <string>
 
 #include "MazeData.h"
+#include "EMaze.h"
 
 class App
 {
@@ -46,5 +47,6 @@ private:
 	void ProcessEvent(SDL_Event e);
 	void HandleKeys(unsigned char key, int x, int y);
 
-	bool gRenderQuad;
+	// Game-specific
+	EMaze* maze;
 };

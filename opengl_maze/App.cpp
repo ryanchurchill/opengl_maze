@@ -6,7 +6,7 @@ App::App()
     gRenderer = NULL;
     Quit = false;
 
-    gRenderQuad = true;
+    maze = NULL;
 }
 
 void App::LogicLoop()
@@ -26,18 +26,12 @@ void App::RenderLoop()
     //Move to center of the screen
     glTranslatef(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
 
+    maze->Render(SCREEN_WIDTH, SCREEN_HEIGHT);
     //Render quad
-    if (gRenderQuad)
-    {
-        //Red quad
-        glBegin(GL_QUADS);
-        glColor3f(1.f, 0.f, 0.f);
-        glVertex2f(-SCREEN_WIDTH / 4.f, -SCREEN_HEIGHT / 4.f);
-        glVertex2f(SCREEN_WIDTH / 4.f, -SCREEN_HEIGHT / 4.f);
-        glVertex2f(SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f);
-        glVertex2f(-SCREEN_WIDTH / 4.f, SCREEN_HEIGHT / 4.f);
-        glEnd();
-    }
+    //if (gRenderQuad)
+    //{
+        
+    //}
 
     //Update screen (double buffering, I think)
     SDL_GL_SwapWindow(gWindow);
@@ -61,11 +55,11 @@ void App::ProcessEvent(SDL_Event e)
 
 void App::HandleKeys(unsigned char key, int x, int y)
 {
-    //Toggle quad
-    if (key == 'q')
-    {
-        gRenderQuad = !gRenderQuad;
-    }
+    ////Toggle quad
+    //if (key == 'q')
+    //{
+    //    gRenderQuad = !gRenderQuad;
+    //}
 }
 
 
@@ -166,6 +160,9 @@ bool App::Init()
         }
     }
 
+    MazeData* m = MazeData::GenerateMaze();
+    maze = new EMaze(m);
+
     return success;
 }
 bool App::InitGlHelper()
@@ -202,16 +199,10 @@ bool App::InitGlHelper()
 
 int main(int argc, char* args[])
 {
-    /*App app;
-    return app.OnExecute();*/
+    App app;
+    return app.OnExecute();
 
-    MazeData* m = MazeData::GenerateMaze();
-
-    //vector<PathSegment> path = PathGenerator().GeneratePath(Point{ 0,0 }, Point{ 3,3 });
-
-    //MazeGenerator mg;
-    //Maze m = mg.GenerateMaze();
-    //m.DrawAsAscii();
+    //MazeData* m = MazeData::GenerateMaze();
 
     return 0;
 }
