@@ -96,7 +96,7 @@ MazeData* MazeData::GenerateMaze()
 	m->CellsVisited = vector<IntTuple>();
 
 	m->CarveClosedMazeIntoPerfectMaze();
-	//addStartAndExit(1);
+	m->AddStartAndExit(1);
 
 	return m;
 }
@@ -159,6 +159,47 @@ void MazeData::CarveClosedMazeIntoPerfectMaze()
 
 void MazeData::AddStartAndExit(int numEntrances)
 {
+	// Exit(s) (also called entrances)
+	vector<IntTuple> existingEntrances;
+	for (int i = 0; i < numEntrances; i++) {
+		// use "direction" to decide which border will get the entrace
+		Direction border = GetRandomDirection({ UP, DOWN, LEFT, RIGHT });
+
+		int x = 0;
+		int y = 0;
+
+		if (border == UP || border == DOWN) {
+			x = GetRandomInt(0, size.x - 1);
+			y = (border == UP) ? 0 : size.y - 1;
+		}
+		else if (border == LEFT || border == RIGHT) {
+			x = (border == LEFT) ? 0 : size.x - 1;
+			y = GetRandomInt(0, size.y - 1);
+		}
+
+		exit = IntTuple{ x, y };
+		MazeCell* cellWithExit = GetCellAtPoint(exit);
+
+		switch (border) {
+		case UP:
+			cellWithExit->lineTop = false;
+			break;
+		case RIGHT:
+			cellWithExit->lineRight = false;
+			break;
+		case DOWN:
+			cellWithExit->lineBottom = false;
+			break;
+		case LEFT:
+			cellWithExit->lineLeft = false;
+			break;
+		}
+	}
+
+	// starting position will go in the opposite quadrant as the exit
+	Quadrant exitQuadrant = GetQuadrant(exit);
+	Quadrant startingPointQuadrant = GetInverseQuadrant(exitQuadrant);
+	startingPoint = GetRandomPointInQuadrant(startingPointQuadrant);
 }
 
 bool MazeData::CellHasBeenVisited(IntTuple p)
