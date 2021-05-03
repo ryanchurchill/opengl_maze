@@ -5,9 +5,10 @@ and may not be redistributed without written permission.*/
 #ifndef LOPENGL_H
 #define LOPENGL_H
 
-#include <GL/freeglut.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <GL\GLU.h>
 #include <stdio.h>
+#include <string>
 
 #endif
