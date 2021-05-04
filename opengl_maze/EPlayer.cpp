@@ -1,6 +1,7 @@
 #include "EPlayer.h"
 
-EPlayer::EPlayer(MazeData* m) : currentGridPoint(m->GetStartingPoint()), maze(m)
+EPlayer::EPlayer(MazeData* m, int pixelsPerUnit, int mazePadding)
+	: currentGridPoint(m->GetStartingPoint()), maze(m), pixelsPerUnit(pixelsPerUnit), mazePadding(mazePadding)
 {
 }
 
@@ -24,12 +25,11 @@ void EPlayer::LogicLoop()
 {
 }
 
-void EPlayer::OnRender(int pixelsPerUnit, int mazePadding)
+void EPlayer::OnRender()
 {
-	int x = currentGridPoint.x * pixelsPerUnit + mazePadding + (pixelsPerUnit / 2);
-	int y = currentGridPoint.y * pixelsPerUnit + mazePadding + (pixelsPerUnit / 2);
+	IntTuple pixelPoint = GetPixelPointFromGridPoint(currentGridPoint);
 	int r = (pixelsPerUnit / 2) - 5;
-	DrawCircle(x, y, r, 100);
+	DrawCircle(pixelPoint.x, pixelPoint.y, r, 100);
 }
 
 void EPlayer::TryMove(Direction d)
@@ -68,4 +68,11 @@ void EPlayer::DrawCircle(float cx, float cy, float r, int num_segments) {
 		glVertex2f(x + cx, y + cy);//output vertex 
 	}
 	glEnd();
+}
+
+IntTuple EPlayer::GetPixelPointFromGridPoint(IntTuple gridPoint)
+{
+	int x = gridPoint.x * pixelsPerUnit + mazePadding + (pixelsPerUnit / 2);
+	int y = gridPoint.y * pixelsPerUnit + mazePadding + (pixelsPerUnit / 2);
+	return IntTuple{ x, y };
 }
