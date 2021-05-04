@@ -24,10 +24,48 @@ void EPlayer::LogicLoop()
 {
 }
 
-void EPlayer::OnRender()
+void EPlayer::OnRender(int pixelsPerUnit, int mazePadding)
 {
+	int x = currentGridPoint.x * pixelsPerUnit + mazePadding + (pixelsPerUnit / 2);
+	int y = currentGridPoint.y * pixelsPerUnit + mazePadding + (pixelsPerUnit / 2);
+	int r = (pixelsPerUnit / 2) - 5;
+	DrawCircle(x, y, r, 100);
 }
 
 void EPlayer::TryMove(Direction d)
 {
+	// TODO: validate player still in maze
+	switch (d) {
+	case UP:
+		if (!(maze->GetCellAtPoint(currentGridPoint)->lineTop)) {
+			currentGridPoint.y--;
+		}
+		break;
+	case RIGHT:
+		if (!(maze->GetCellAtPoint(currentGridPoint)->lineRight)) {
+			currentGridPoint.x++;
+		}
+		break;
+	case DOWN:
+		if (!(maze->GetCellAtPoint(currentGridPoint)->lineBottom)) {
+			currentGridPoint.y++;
+		}
+		break;
+	case LEFT:
+		if (!(maze->GetCellAtPoint(currentGridPoint)->lineLeft)) {
+			currentGridPoint.x--;
+		}
+		break;
+	}
+}
+
+void EPlayer::DrawCircle(float cx, float cy, float r, int num_segments) {
+	glBegin(GL_LINE_LOOP);
+	for (int ii = 0; ii < num_segments; ii++) {
+		float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle 
+		float x = r * cosf(theta);//calculate the x component 
+		float y = r * sinf(theta);//calculate the y component 
+		glVertex2f(x + cx, y + cy);//output vertex 
+	}
+	glEnd();
 }

@@ -13,7 +13,7 @@ public:
 
 	void ProcessKeypress(SDL_Keycode key);
 	void LogicLoop();
-	void OnRender();
+	void OnRender(int pixelsPerUnit, int mazePadding);
 
 private:
 	void TryMove(Direction d);
@@ -22,5 +22,7 @@ private:
 	MazeData* maze;
 
 	IntTuple currentGridPoint;
+
+	void DrawCircle(float cx, float cy, float r, int num_segments);
 };
 

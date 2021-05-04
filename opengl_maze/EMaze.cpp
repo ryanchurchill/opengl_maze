@@ -20,6 +20,16 @@ void EMaze::Render(float screenWidth, float screenHeight)
     glEnd();*/
 }
 
+int EMaze::GetPixelsPerUnit()
+{
+	return PIXELS_PER_UNIT;
+}
+
+int EMaze::GetMazePadding()
+{
+	return MAZE_PADDING;
+}
+
 void EMaze::RenderCell(const MazeCell *mc, const IntTuple gridPoint)
 {
 	int x1 = 0;

@@ -13,6 +13,9 @@ public:
 
 	void Render(float screenWidth, float screenHeight);
 
+	int GetPixelsPerUnit();
+	int GetMazePadding();
+
 private:
 	const int PIXELS_PER_UNIT = 40;
 	const int MAZE_PADDING = 30;

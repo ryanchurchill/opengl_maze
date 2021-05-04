@@ -27,7 +27,7 @@ void App::RenderLoop()
     //glTranslatef(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
 
     maze->Render(SCREEN_WIDTH, SCREEN_HEIGHT);
-    player->OnRender();
+    player->OnRender(maze->GetPixelsPerUnit(), maze->GetMazePadding());
     //Render quad
     //if (gRenderQuad)
     //{
