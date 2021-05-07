@@ -47,6 +47,7 @@ private:
 	bool InitGlHelper();
 	void ProcessEvent(SDL_Event e);
 	void HandleKeys(SDL_Keycode key, int x, int y);
+	void HandleKeyUp(SDL_Keycode key);
 
 	// Game-specific
 	EMaze* maze;

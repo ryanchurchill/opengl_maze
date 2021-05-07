@@ -1,7 +1,7 @@
 #include "EPlayer.h"
 
 EPlayer::EPlayer(MazeData* m, int pixelsPerUnit, int mazePadding)
-	: currentGridPoint(m->GetStartingPoint()), maze(m), pixelsPerUnit(pixelsPerUnit), mazePadding(mazePadding)
+	: startingGridPoint(m->GetStartingPoint()), maze(m), pixelsPerUnit(pixelsPerUnit), mazePadding(mazePadding), currentPixelPoint(GetPixelPointFromGridPoint(startingGridPoint))
 {
 }
 
@@ -21,44 +21,58 @@ void EPlayer::ProcessKeypress(SDL_Keycode key)
 	}
 }
 
+void EPlayer::ProcessKeyUp(SDL_Keycode key)
+{
+	// pretty imperfect system :shrug:
+	if (key == SDLK_UP || key == SDLK_RIGHT || key == SDLK_DOWN || key == SDLK_LEFT) {
+		StopMove();
+	}
+}
+
 void EPlayer::LogicLoop()
 {
+	currentPixelPoint.x += speedX;
+	currentPixelPoint.y += speedY;
 }
 
 void EPlayer::OnRender()
 {
-	IntTuple pixelPoint = GetPixelPointFromGridPoint(currentGridPoint);
-	int r = (pixelsPerUnit / 2) - 5;
-	DrawCircle(pixelPoint.x, pixelPoint.y, r, 100);
+	//IntTuple pixelPoint = GetPixelPointFromGridPoint(startingGridPoint);
+	int r = (pixelsPerUnit / 2) - 5; // perf: could be factored out
+	DrawCircle(currentPixelPoint.x, currentPixelPoint.y, r, 100);
 }
 
 void EPlayer::TryMove(Direction d)
 {
-	// TODO: validate player still in maze
+	//// TODO: validate player still in maze
 	switch (d) {
 	case UP:
-		if (!(maze->GetCellAtPoint(currentGridPoint)->lineTop)) {
-			currentGridPoint.y--;
-		}
+		speedX = 0;
+		speedY = -1;
 		break;
 	case RIGHT:
-		if (!(maze->GetCellAtPoint(currentGridPoint)->lineRight)) {
-			currentGridPoint.x++;
-		}
+		speedX = 1;
+		speedY = 0;
 		break;
 	case DOWN:
-		if (!(maze->GetCellAtPoint(currentGridPoint)->lineBottom)) {
-			currentGridPoint.y++;
-		}
+		speedX = 0;
+		speedY = 1;
 		break;
 	case LEFT:
-		if (!(maze->GetCellAtPoint(currentGridPoint)->lineLeft)) {
-			currentGridPoint.x--;
-		}
+		speedX = -1;
+		speedY = 0;
 		break;
 	}
+	//currentPixelPoint = GetPixelPointFromGridPoint(startingGridPoint);
 }
 
+void EPlayer::StopMove()
+{
+	speedX = 0;
+	speedY = 0;
+}
+
+// taken from https://stackoverflow.com/questions/22444450/drawing-circle-with-opengl
 void EPlayer::DrawCircle(float cx, float cy, float r, int num_segments) {
 	glBegin(GL_LINE_LOOP);
 	for (int ii = 0; ii < num_segments; ii++) {

@@ -52,6 +52,10 @@ void App::ProcessEvent(SDL_Event e)
         SDL_GetMouseState(&x, &y);
         HandleKeys(e.key.keysym.sym, x, y);
     }
+    else if (e.type == SDL_KEYUP)
+    {
+        HandleKeyUp(e.key.keysym.sym);
+    }
 }
 
 void App::HandleKeys(SDL_Keycode key, int x, int y)
@@ -62,6 +66,11 @@ void App::HandleKeys(SDL_Keycode key, int x, int y)
     //    gRenderQuad = !gRenderQuad;
     //}
     player->ProcessKeypress(key);
+}
+
+void App::HandleKeyUp(SDL_Keycode key)
+{
+    player->ProcessKeyUp(key);
 }
 
 
