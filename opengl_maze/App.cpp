@@ -173,7 +173,7 @@ bool App::Init()
 
     MazeData* m = MazeData::GenerateMaze();
     maze = new EMaze(m);
-    player = new EPlayer(m, maze->GetPixelsPerUnit(), maze->GetMazePadding());
+    player = new EPlayer(m->GetStartingPoint(), maze->GetPixelsPerUnit(), maze->GetMazePadding());
 
     return success;
 }

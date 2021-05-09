@@ -69,8 +69,6 @@ void EMaze::RenderCell(const MazeCell *mc)
 		y2 = upperLeftPos.y + PIXELS_PER_UNIT;
 		DrawLine(IntTuple{ x1, y1 }, IntTuple{ x2, y2 });
 	}
-
-    
 }
 
 void EMaze::DrawLine(IntTuple p1, IntTuple p2)

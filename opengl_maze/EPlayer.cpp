@@ -1,7 +1,12 @@
 #include "EPlayer.h"
 
-EPlayer::EPlayer(MazeData* m, int pixelsPerUnit, int mazePadding)
-	: startingGridPoint(m->GetStartingPoint()), maze(m), pixelsPerUnit(pixelsPerUnit), mazePadding(mazePadding), currentPixelPoint(GetPixelPointFromGridPoint(startingGridPoint))
+EPlayer::EPlayer(IntTuple startingGridPoint, int pixelsPerUnit, int mazePadding)
+	: startingGridPoint(startingGridPoint),
+	pixelsPerUnit(pixelsPerUnit),
+	mazePadding(mazePadding),
+	currentPixelPoint(GetPixelPointFromGridPoint(startingGridPoint)),
+	speedX(0),
+	speedY(0)
 {
 }
 

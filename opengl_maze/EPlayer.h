@@ -9,7 +9,7 @@
 class EPlayer
 {
 public:
-	EPlayer(MazeData* m, int pixelsPerUnit, int mazePadding);
+	EPlayer(IntTuple startingGridPoint, int pixelsPerUnit, int mazePadding);
 
 	void ProcessKeypress(SDL_Keycode key);
 	void ProcessKeyUp(SDL_Keycode key);
@@ -24,7 +24,7 @@ private:
 	float speedY;
 
 	// Bad practice?
-	MazeData* maze;
+	//MazeData* maze;
 
 	IntTuple startingGridPoint;
 	IntTuple currentPixelPoint;
