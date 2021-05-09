@@ -6,6 +6,8 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
+#include "OpenGLUtil.h"
+
 class EPlayer
 {
 public:
@@ -13,7 +15,7 @@ public:
 
 	void ProcessKeypress(SDL_Keycode key);
 	void ProcessKeyUp(SDL_Keycode key);
-	void LogicLoop();
+	void LogicLoop(vector<Rect> colliders);
 	void OnRender();
 
 private:

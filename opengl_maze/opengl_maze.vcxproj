@@ -148,6 +148,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="EMaze.h" />
     <ClInclude Include="EPlayer.h" />
+    <ClInclude Include="OpenGLUtil.h" />
     <ClInclude Include="Tuple.h" />
     <ClInclude Include="MazeData.h" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClCompile Include="EMaze.cpp" />
     <ClCompile Include="EPlayer.cpp" />
     <ClCompile Include="MazeData.cpp" />
+    <ClCompile Include="OpenGLUtil.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,7 +11,7 @@ App::App()
 
 void App::LogicLoop()
 {
-    player->LogicLoop();
+    player->LogicLoop(maze->GetColliders());
 }
 
 void App::RenderLoop()
@@ -26,7 +26,7 @@ void App::RenderLoop()
     //Move to center of the screen
     //glTranslatef(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
 
-    maze->Render(SCREEN_WIDTH, SCREEN_HEIGHT);
+    maze->Render();
     player->OnRender();
     //Render quad
     //if (gRenderQuad)
@@ -172,7 +172,7 @@ bool App::Init()
     }
 
     MazeData* m = MazeData::GenerateMaze();
-    maze = new EMaze(m);
+    maze = new EMaze(m, SCREEN_WIDTH, SCREEN_HEIGHT);
     player = new EPlayer(m->GetStartingPoint(), maze->GetPixelsPerUnit(), maze->GetMazePadding());
 
     return success;

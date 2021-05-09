@@ -34,8 +34,10 @@ void EPlayer::ProcessKeyUp(SDL_Keycode key)
 	}
 }
 
-void EPlayer::LogicLoop()
+void EPlayer::LogicLoop(vector<Rect> colliders)
 {
+	// TODO: handle collision
+
 	currentPixelPoint.x += speedX;
 	currentPixelPoint.y += speedY;
 }
