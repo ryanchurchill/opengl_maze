@@ -1,13 +1,16 @@
 #include "EPlayer.h"
 
 EPlayer::EPlayer(IntTuple startingGridPoint, int pixelsPerUnit, int mazePadding)
-	: startingGridPoint(startingGridPoint),
+	:
+	//startingGridPoint(startingGridPoint),
+	startingGridPoint(IntTuple{ 0,0 }),
 	pixelsPerUnit(pixelsPerUnit),
 	mazePadding(mazePadding),
-	currentPixelPoint(GetPixelPointFromGridPoint(startingGridPoint)),
+	currentPixelPoint(GetPixelPointFromGridPoint(this->startingGridPoint)),
 	speedX(0),
 	speedY(0)
 {
+	radius = (pixelsPerUnit / 2) - 5;
 }
 
 void EPlayer::ProcessKeypress(SDL_Keycode key)
@@ -36,17 +39,37 @@ void EPlayer::ProcessKeyUp(SDL_Keycode key)
 
 void EPlayer::LogicLoop(vector<Rect> colliders)
 {
-	// TODO: handle collision
+	IntTuple targetPoint{ currentPixelPoint.x + speedX, currentPixelPoint.y + speedY };
+	if (WouldCollide(targetPoint, colliders)) {
+		speedX = 0;
+		speedY = 0;
+		return;
+	}
 
-	currentPixelPoint.x += speedX;
-	currentPixelPoint.y += speedY;
+	currentPixelPoint = targetPoint;
+}
+
+bool EPlayer::WouldCollide(IntTuple targetPoint, vector<Rect> colliders)
+{
+	for (auto it = colliders.begin(); it != colliders.end(); it++) {
+		if (WouldCollide(targetPoint, *it)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool EPlayer::WouldCollide(IntTuple targetPoint, Rect collider)
+{
+	Rect playerCollider{ targetPoint.x - radius, targetPoint.y - radius, targetPoint.x + radius, targetPoint.y + radius };
+
+	return OpenGLUtil::AreRectanglesColliding(collider, playerCollider);
 }
 
 void EPlayer::OnRender()
 {
 	//IntTuple pixelPoint = GetPixelPointFromGridPoint(startingGridPoint);
-	int r = (pixelsPerUnit / 2) - 5; // perf: could be factored out
-	DrawCircle(currentPixelPoint.x, currentPixelPoint.y, r, 100);
+	DrawCircle(currentPixelPoint.x, currentPixelPoint.y, radius, 100);
 }
 
 void EPlayer::TryMove(Direction d)

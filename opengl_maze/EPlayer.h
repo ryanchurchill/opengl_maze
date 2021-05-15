@@ -21,6 +21,7 @@ public:
 private:
 	int pixelsPerUnit;
 	int mazePadding;
+	float radius;
 
 	float speedX;
 	float speedY;
@@ -36,5 +37,7 @@ private:
 	IntTuple GetPixelPointFromGridPoint(IntTuple gridPoint);
 	void TryMove(Direction d);
 	void StopMove();
+	bool WouldCollide(IntTuple targetPoint, vector<Rect> colliders);
+	bool WouldCollide(IntTuple targetPoint, Rect collider);
 };
 

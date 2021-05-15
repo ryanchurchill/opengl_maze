@@ -6,5 +6,7 @@ struct Rect
 
 class OpenGLUtil
 {
+public:
+	static bool AreRectanglesColliding(Rect, Rect);
 };
 
