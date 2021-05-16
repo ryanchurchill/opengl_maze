@@ -13,30 +13,6 @@ EPlayer::EPlayer(IntTuple startingGridPoint, int pixelsPerUnit, int mazePadding)
 	radius = (pixelsPerUnit / 2) - 5;
 }
 
-void EPlayer::ProcessKeypress(SDL_Keycode key)
-{
-	if (key == SDLK_UP) {
-		TryMove(UP);
-	}
-	else if (key == SDLK_RIGHT) {
-		TryMove(RIGHT);
-	}
-	else if (key == SDLK_DOWN) {
-		TryMove(DOWN);
-	}
-	else if (key == SDLK_LEFT) {
-		TryMove(LEFT);
-	}
-}
-
-void EPlayer::ProcessKeyUp(SDL_Keycode key)
-{
-	// pretty imperfect system :shrug:
-	if (key == SDLK_UP || key == SDLK_RIGHT || key == SDLK_DOWN || key == SDLK_LEFT) {
-		StopMove();
-	}
-}
-
 void EPlayer::LogicLoop(vector<Rect> colliders)
 {
 	IntTuple targetPoint{ currentPixelPoint.x + speedX, currentPixelPoint.y + speedY };
@@ -72,23 +48,55 @@ void EPlayer::OnRender()
 	DrawCircle(currentPixelPoint.x, currentPixelPoint.y, radius, 100);
 }
 
+void EPlayer::ProcessKeypress(SDL_Keycode key)
+{
+	if (key == SDLK_UP) {
+		TryMove(UP);
+	}
+	else if (key == SDLK_RIGHT) {
+		TryMove(RIGHT);
+	}
+	else if (key == SDLK_DOWN) {
+		TryMove(DOWN);
+	}
+	else if (key == SDLK_LEFT) {
+		TryMove(LEFT);
+	}
+}
+
+void EPlayer::ProcessKeyUp(SDL_Keycode key)
+{
+	// system seems a bit better now, but i'm winging it
+	if ((key == SDLK_UP && moveAttemptDirection == UP)
+		|| (key == SDLK_RIGHT && moveAttemptDirection == RIGHT)
+		|| (key == SDLK_DOWN && moveAttemptDirection == DOWN)
+		|| (key == SDLK_LEFT && moveAttemptDirection == LEFT)
+	) {
+		StopMove();
+	}
+}
+
 void EPlayer::TryMove(Direction d)
 {
 	//// TODO: validate player still in maze
 	switch (d) {
 	case UP:
+		moveAttemptDirection = UP;
 		speedX = 0;
 		speedY = -1;
 		break;
 	case RIGHT:
+		moveAttemptDirection = RIGHT;
 		speedX = 1;
 		speedY = 0;
 		break;
 	case DOWN:
+		moveAttemptDirection = DOWN;
 		speedX = 0;
 		speedY = 1;
 		break;
 	case LEFT:
+		moveAttemptDirection = LEFT;
 		speedX = -1;
 		speedY = 0;
 		break;

@@ -25,6 +25,7 @@ private:
 
 	float speedX;
 	float speedY;
+	Direction moveAttemptDirection = INVALID;
 
 	// Bad practice?
 	//MazeData* maze;
