@@ -44,8 +44,9 @@ bool EPlayer::WouldCollide(IntTuple targetPoint, Rect collider)
 
 void EPlayer::OnRender()
 {
-	//IntTuple pixelPoint = GetPixelPointFromGridPoint(startingGridPoint);
-	DrawCircle(currentPixelPoint.x, currentPixelPoint.y, radius, 100);
+	OpenGLUtil::DrawCircle(currentPixelPoint.x, currentPixelPoint.y, radius, 100);
+
+	// Draw Mouth
 }
 
 void EPlayer::ProcessKeypress(SDL_Keycode key)
@@ -82,21 +83,25 @@ void EPlayer::TryMove(Direction d)
 	switch (d) {
 	case UP:
 		moveAttemptDirection = UP;
+		facingDirection = UP;
 		speedX = 0;
 		speedY = -1;
 		break;
 	case RIGHT:
 		moveAttemptDirection = RIGHT;
+		facingDirection = RIGHT;
 		speedX = 1;
 		speedY = 0;
 		break;
 	case DOWN:
 		moveAttemptDirection = DOWN;
+		facingDirection = DOWN;
 		speedX = 0;
 		speedY = 1;
 		break;
 	case LEFT:
 		moveAttemptDirection = LEFT;
+		facingDirection = LEFT;
 		speedX = -1;
 		speedY = 0;
 		break;
@@ -108,18 +113,6 @@ void EPlayer::StopMove()
 {
 	speedX = 0;
 	speedY = 0;
-}
-
-// taken from https://stackoverflow.com/questions/22444450/drawing-circle-with-opengl
-void EPlayer::DrawCircle(float cx, float cy, float r, int num_segments) {
-	glBegin(GL_LINE_LOOP);
-	for (int ii = 0; ii < num_segments; ii++) {
-		float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle 
-		float x = r * cosf(theta);//calculate the x component 
-		float y = r * sinf(theta);//calculate the y component 
-		glVertex2f(x + cx, y + cy);//output vertex 
-	}
-	glEnd();
 }
 
 IntTuple EPlayer::GetPixelPointFromGridPoint(IntTuple gridPoint)

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Tuple.h"
 #include "MazeData.h"
 
 #include <SDL.h>
@@ -25,7 +24,9 @@ private:
 
 	float speedX;
 	float speedY;
+	// TODO: consider supporting movement in multiple directions
 	Direction moveAttemptDirection = INVALID;
+	Direction facingDirection = RIGHT;
 
 	// Bad practice?
 	//MazeData* maze;

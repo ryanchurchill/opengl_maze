@@ -21,9 +21,6 @@
     <ClInclude Include="MazeData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tuple.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EMaze.h">
       <Filter>Header Files</Filter>
     </ClInclude>

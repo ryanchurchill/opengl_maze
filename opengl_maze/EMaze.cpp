@@ -72,19 +72,11 @@ void EMaze::Render()
 {
 	for (const Rect &collider : colliders) {
 		//glRectd(collider.x1, collider.y1, collider.x2, collider.y2);
-		DrawLine(IntTuple{ collider.x1, collider.y1 }, IntTuple{ collider.x2, collider.y2 });
+		OpenGLUtil::DrawLine(IntTuple{ collider.x1, collider.y1 }, IntTuple{ collider.x2, collider.y2 });
 	}
 }
 
 vector<Rect> EMaze::GetColliders()
 {
 	return colliders;
-}
-
-void EMaze::DrawLine(IntTuple p1, IntTuple p2)
-{
-	glBegin(GL_LINES);
-		glVertex2f(p1.x, p1.y);
-		glVertex2f(p2.x, p2.y);
-	glEnd();
 }

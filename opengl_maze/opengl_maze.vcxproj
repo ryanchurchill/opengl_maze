@@ -149,7 +149,6 @@
     <ClInclude Include="EMaze.h" />
     <ClInclude Include="EPlayer.h" />
     <ClInclude Include="OpenGLUtil.h" />
-    <ClInclude Include="Tuple.h" />
     <ClInclude Include="MazeData.h" />
   </ItemGroup>
   <ItemGroup>
